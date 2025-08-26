@@ -2,8 +2,9 @@
 
 A Flask-based web application that provides real-time weather information for any city worldwide using the OpenWeatherMap API.
 
-![Weather Dashboard Screenshot](<img width="432" height="608" alt="Screenshot (132)" src="https://github.com/user-attachments/assets/6360a1eb-4bf9-4009-aa3b-cf7399db5e1c" />
-) *(Add a screenshot of your app here)*
+![<img width="432" height="608" alt="Screenshot (132)" src="https://github.com/user-attachments/assets/95e5be61-92a8-4595-bbfa-194b02113e84" />
+](<img width="432" height="608" alt="Screenshot (132)" src="https://github.com/user-attachments/assets/6360a1eb-4bf9-4009-aa3b-cf7399db5e1c" />
+) 
 
 ## Features
 
