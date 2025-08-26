@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .dashboard {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+        .header {
+            background: #0984e3;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+        .search-form {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .search-form form {
+            display: flex;
+            gap: 8px;
+        }
+        .search-form input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .search-form button {
+            padding: 10px 15px;
+            background: #0984e3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .weather-card {
+            padding: 15px;
+        }
+        .weather-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .weather-icon {
+            width: 60px;
+            height: 60px;
+            margin-right: 12px;
+        }
+        .weather-info h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #2d3436;
+        }
+        .weather-info .temp {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0984e3;
+            margin: 3px 0;
+        }
+        .weather-info .desc {
+            font-size: 14px;
+            color: #636e72;
+            text-transform: capitalize;
+        }
+        .weather-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .detail-item {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .detail-label {
+            font-size: 12px;
+            color: #636e72;
+            margin-bottom: 3px;
+        }
+        .detail-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2d3436;
+        }
+        .error {
+            background: #ff7675;
+            color: white;
+            padding: 12px;
+            margin: 0 15px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .recent-searches {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        .recent-searches h2 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: #2d3436;
+        }
+        .search-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .search-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        .search-item:last-child {
+            border-bottom: none;
+        }
+        .search-item a {
+            color: #0984e3;
+            text-decoration: none;
+        }
+        .search-item a:hover {
+            text-decoration: underline;
+        }
+        .timestamp {
+            color: #636e72;
+            font-size: 12px;
+        }
+        .no-searches {
+            color: #636e72;
+            font-style: italic;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>Weather Dashboard</h1>
+        </div>
+        
+        <div class="search-form">
+            <form method="POST">
+                <input type="text" name="city" placeholder="Enter City Name" required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        
+        {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        {% if weather %}
+        <div class="weather-card">
+            <div class="weather-header">
+                <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather icon" class="weather-icon">
+                <div class="weather-info">
+                    <h2>{{ weather.city }}</h2>
+                    <div class="temp">{{ weather.temperature }}°C</div>
+                    <div class="desc">{{ weather.description }}</div>
+                </div>
+            </div>
+            
+            <div class="weather-details">
+                <div class="detail-item">
+                    <div class="detail-label">Humidity</div>
+                    <div class="detail-value">{{ weather.humidity }}%</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Wind</div>
+                    <div class="detail-value">{{ weather.wind_speed }} m/s</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="recent-searches">
+            <h2>Recent Searches</h2>
+            {% if recent_searches %}
+                <ul class="search-list">
+                    {% for search in recent_searches %}
+                    <li class="search-item">
+                        <a href="#" onclick="document.querySelector('input[name=city]').value='{{ search.city }}'; document.querySelector('form').submit(); return false;">{{ search.city }}</a>
+                        <span class="timestamp">{{ search.timestamp }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="no-searches">No recent searches</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
