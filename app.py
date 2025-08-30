@@ -3,9 +3,9 @@ import requests
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = "203e28854cee3f930d9250998b472a6a"
+# app.secret_key = "203e28854cee3f930d9250998b472a6a"
 
-API_KEY = "e741391ec872d58329d3d6c36a2c141f"
+# API_KEY = "e741391ec872d58329d3d6c36a2c141f"
 BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
 def fetchWeather(city):
@@ -71,4 +71,5 @@ def home():
                           recent_searches=session.get('recent_searches', []))
 
 if __name__ == "__main__":
+
     app.run(debug=True)
